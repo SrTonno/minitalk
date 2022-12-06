@@ -1,13 +1,17 @@
 ###############################################################################
 #                                              FILES                          #
 ###############################################################################
-CCLINET		= \
-			client.c
-OCLIENT	=	${CFILES:.c=.o}
+CCLIENT		= client.c
+OCLIENT	=	${CCLIENT:.c=.o}
 
-CSERVER		= \
-			server.c
-OSERVER	=	${CFILES:.c=.o}
+CSERVER		= server.c
+OSERVER	=	${CSERVER:.c=.o}
+
+CCLIENTB		= client_bonus.c
+OCLIENTB	=	${CCLIENTB:.c=.o}
+
+CSERVERB		= server_bonus.c
+OSERVERB	=	${CSERVERB:.c=.o}
 
 CLIBFT		= \
 			libft/lib/ft_atoi.c libft/lib/ft_bzero.c libft/lib/ft_calloc.c \
@@ -53,9 +57,10 @@ CLIENT = client
 
 NLIBRARY= libft.a
 
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Werror -Wextra
 OPGRAFIC = -lmlx -framework OpenGL -framework AppKit
+SANITIZE = -fsanitize=address -g
 
 AR = ar
 ARFLAGS = -rcs
@@ -63,22 +68,33 @@ RM = rm -f
 
 LIBFT = $(OLIBFT) $(OPRINTF) $(OGNL)
 
+ifdef WITH_BONUS
+	OBJS_CLIENT = ${OCLIENTB}
+	OBJS_SERVER = ${OSERVER}
+else
+	OBJS_CLIENT = ${OCLIENT}
+	OBJS_SERVER = ${OSERVER}
+endif
+
 ###############################################################################
 #                                              OPTIONS                        #
 ###############################################################################
 all: ${CLIENT} ${SERVER}
 
-${CLIENT}: ${NLIBRARY} ${OCLIENT}
-	@${CC} ${CFLAGS} ${OCLIENT} ${NLIBRARY} -o $@
+${CLIENT}: ${NLIBRARY} ${OBJS_CLIENT}
+	@${CC} ${CFLAGS} $^ ${NLIBRARY} -o $@
 	@echo "Created ${CLIENT}."
 
-${SERVER}: ${NLIBRARY} ${OSERVER}
-	@${CC} ${CFLAGS} ${OSERVER} ${NLIBRARY} -o $@
+${SERVER}: ${NLIBRARY} ${OBJS_SERVER}
+	@${CC} ${CFLAGS} $^ ${NLIBRARY} -o $@
 	@echo "Created ${SERVER}."
 
 $(NLIBRARY): $(LIBFT)
 	@$(AR) $(ARFLAGS) $@ $^
 	@echo "Created LIBFT."
+
+bonus:
+	@make WITH_BONUS=1
 
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
