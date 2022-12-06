@@ -68,14 +68,14 @@ RM = rm -f
 
 LIBFT = $(OLIBFT) $(OPRINTF) $(OGNL)
 
+###############################################################################
 ifdef WITH_BONUS
 	OBJS_CLIENT = ${OCLIENTB}
-	OBJS_SERVER = ${OSERVER}
+	OBJS_SERVER = ${OSERVERB}
 else
 	OBJS_CLIENT = ${OCLIENT}
 	OBJS_SERVER = ${OSERVER}
 endif
-
 ###############################################################################
 #                                              OPTIONS                        #
 ###############################################################################
@@ -101,11 +101,11 @@ bonus:
 
 ###############################################################################
 clean:
-		@${RM} ${OBJS} ${LIBFT}
+		@${RM} ${OSERVER} ${OSERVERB} ${OSERVER} ${LIBFT}
 		@echo "Delete .o."
 
 fclean: clean
-		@${RM} ${NLIBRARY} ${CLIENT} ${SERVER}
+		@${RM} ${NLIBRARY} ${SERVER} ${NAME}
 		@echo "Delete libft.a, client and server."
 
 re: fclean all

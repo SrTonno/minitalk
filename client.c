@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2022/12/06 12:39:25 by tvillare         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "client.h"
 
 static int	ft_killed(char chr, int pid)
@@ -20,7 +8,7 @@ static int	ft_killed(char chr, int pid)
 	count = 0;
 	while (8 > count)
 	{
-		usleep(50);
+		usleep(20);
 		if (chr & 128)
 		{
 			out = kill(pid, SIGUSR1); //1
