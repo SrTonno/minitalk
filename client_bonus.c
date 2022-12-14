@@ -6,39 +6,58 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2022/12/06 12:35:46 by tvillare         ###   ########.fr       */
+/*   Updated: 2022/12/06 18:34:12 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
+static int	signumorg(int num, int pid)
+{
+	int			count;
+	int			out;
+
+	out = kill(pid, SIGUSR1);
+	while (15 > count)
+	{
+		usleep(20);
+		if (num & 16384)
+			out = kill(pid, SIGUSR1); //1
+		else
+			out = kill(pid, SIGUSR2); //0
+		num = num & 16383;
+		num = num << 1;
+		count++;
+		if (out < 0)
+			return (0);
+	}
+}
+
 static int	ft_killed(char chr, int pid)
 {
-	int	count;
-	int	out;
+	int			count;
+	int			out;
+	static	int type;
 
 	count = 0;
+	if (type == 0)
+		signumorg(getpid(), pid);
+	else
+		out = kill(pid, SIGUSR2);
+	type++;
 	while (8 > count)
 	{
-		usleep(50);
+		usleep(20);
 		if (chr & 128)
-		{
 			out = kill(pid, SIGUSR1); //1
-			//printf("1\n");
-		}
 		else
-		{
 			out = kill(pid, SIGUSR2); //0
-			//printf("0\n");
-		}
-		//printf("%d->Salida%d\n", i, a);
 		chr = chr & 127;
 		chr = chr << 1;
 		count++;
 		if (out < 0)
 			return (0);
 	}
-	//printf("Fin%d\n", i);
 	return (1);
 }
 
