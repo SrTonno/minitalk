@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2022/12/06 18:34:12 by tvillare         ###   ########.fr       */
+/*   Updated: 2022/12/30 18:12:16 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_killed(char chr, int pid)
 	type++;
 	while (8 > count)
 	{
-		usleep(20);
+		usleep(100);
 		if (chr & 128)
 			out = kill(pid, SIGUSR1); //1
 		else

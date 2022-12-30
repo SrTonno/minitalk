@@ -8,7 +8,7 @@ static int	ft_killed(char chr, int pid)
 	count = 0;
 	while (8 > count)
 	{
-		usleep(10); //20
+		usleep(100); //20
 		if (chr & 128)
 		{
 			out = kill(pid, SIGUSR1); //1

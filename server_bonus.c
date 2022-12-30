@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:22 by tvillare          #+#    #+#             */
-/*   Updated: 2022/12/06 18:52:52 by tvillare         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:17:18 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ static int	max_num(signo)
 	else if (signo == SIGUSR2)
 		return (8);
 }
-
+//usar sigaction para el bonus(puedes ver la cabezera de la señal) https://github.com/xle-boul/minitalk
 static void	sig_usr(int signo)
 {
 	static int	bit;
 	static char	letter;
 	static int	pid;
 
-	if
 	pid = max_num(signo);
 	if (signo == SIGUSR1)
 	{
@@ -57,6 +56,7 @@ static void	sig_usr(int signo)
 
 int	main(void)
 {
+
 	viw_pid();
 	if (signal(SIGUSR1, sig_usr) == SIG_ERR)
 		ft_printf("can not catch SIGUSR1\n");
