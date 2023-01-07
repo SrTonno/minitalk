@@ -6,58 +6,66 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2022/12/30 18:12:16 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/01/07 16:29:57 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static int	signumorg(int num, int pid)
-{
-	int			count;
-	int			out;
 
-	out = kill(pid, SIGUSR1);
-	while (15 > count)
+static void	sig_usr(int signo)
+{
+	//printf("%d\n", bit);
+	if (signo == SIGUSR1)
 	{
-		usleep(20);
-		if (num & 16384)
-			out = kill(pid, SIGUSR1); //1
-		else
-			out = kill(pid, SIGUSR2); //0
-		num = num & 16383;
-		num = num << 1;
-		count++;
-		if (out < 0)
-			return (0);
+		printf("✅\n");
+	}
+	if (signo == SIGUSR2)
+	{
+		printf("*");
 	}
 }
 
 static int	ft_killed(char chr, int pid)
 {
-	int			count;
-	int			out;
-	static	int type;
+	int	count;
+	int	out;
+	int aux;
 
+	aux = 1;
 	count = 0;
-	if (type == 0)
-		signumorg(getpid(), pid);
-	else
-		out = kill(pid, SIGUSR2);
-	type++;
 	while (8 > count)
 	{
-		usleep(100);
-		if (chr & 128)
+		usleep(100); //20
+		if (chr & 128 && aux == 1)
+		{
 			out = kill(pid, SIGUSR1); //1
-		else
+			//printf("1\n");
+		}
+		else if (aux == 1)
+		{
 			out = kill(pid, SIGUSR2); //0
-		chr = chr & 127;
-		chr = chr << 1;
-		count++;
+			//printf("0\n");
+		}
+		//printf("%d->Salida%d\n", i, a);
+		aux = 0;
+		if (signal(SIGUSR1, sig_usr) == SIG_ERR)
+			ft_printf("can not catch SIGUSR1\n");
+		if (signal(SIGUSR2, sig_usr) != SIG_ERR)
+		{
+			chr = chr & 127;
+			chr = chr << 1;
+			count++;
+			aux = 1;
+		}
+		else
+		{
+			ft_printf("can not catch SIGUSR2\n");
+		}
 		if (out < 0)
 			return (0);
 	}
+	//printf("Fin%d\n", i);
 	return (1);
 }
 
@@ -81,7 +89,7 @@ int	main(int argc, char **argv)
 	num = atoi(argv[1]);
 	count = 0;
 	len = ft_strlen(argv[2]);
-	ft_printf("%s\n", argv[2]);
+	//ft_printf("%s\n", argv[2]);
 	while (len > count)
 	{
 		out = ft_killed(argv[2][count++], num);
