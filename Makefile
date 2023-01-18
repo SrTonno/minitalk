@@ -101,7 +101,7 @@ bonus:
 
 ###############################################################################
 clean:
-		@${RM} ${OSERVER} ${OSERVERB} ${OSERVER} ${LIBFT}
+		@${RM} ${OSERVER} ${OSERVERB} ${OCLIENT} ${OCLIENTB} ${LIBFT}
 		@echo "Delete .o."
 
 fclean: clean
