@@ -96,11 +96,10 @@ $(NLIBRARY): $(LIBFT)
 bonus:
 	@make WITH_BONUS=1
 git: fclean
-	git add .
-	@echo "nombre del commit"
-	read commit
-	git commit -m $commit
-	git push origin master
+	@git add .
+	@read -p "nombre del commit: " commit ;\
+	git commit -m $$commit ;
+	git push origin master ;
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
