@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:22 by tvillare          #+#    #+#             */
-/*   Updated: 2023/01/22 13:06:44 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/01/22 13:21:51 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 		kill(info->si_pid, SIGUSR2);
 		bit++;
 		letter = letter << 1;
-		usleep(100);
 	}
 	if (8 <= bit)
 	{
