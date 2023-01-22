@@ -100,7 +100,7 @@ git: fclean
 	@echo "nombre del commit"
 	read commit
 	git commit -m $commit
-	git add origin master
+	git push origin master
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
