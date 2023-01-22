@@ -95,7 +95,12 @@ $(NLIBRARY): $(LIBFT)
 
 bonus:
 	@make WITH_BONUS=1
-
+git: fclean
+	git add .
+	@echo "nombre del commit"
+	read commit
+	git commit -m $commit
+	git add origin master
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
@@ -118,4 +123,4 @@ help:
 	@echo "\tre: Delete '.o', '${NLIBRARY}', '${CLIENT}', '${SERVER}' and creates '${CLIENT}', '${SERVER}'"
 	@echo "MakeFile by tvillare."
 
-.PHONY = all clean fclean re help
+.PHONY = all clean fclean re help git
