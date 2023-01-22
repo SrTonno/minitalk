@@ -96,6 +96,7 @@ $(NLIBRARY): $(LIBFT)
 bonus:
 	@make WITH_BONUS=1
 git: fclean
+	@echo ">>Push To Git<<"
 	@git add . ;
 	@read -p "nombre del commit: " commit ;\
 	git commit -m $$commit ;\
@@ -118,8 +119,9 @@ help:
 	@echo "Options of MakeFile:"
 	@echo "\tDeault: Created '${CLIENT}' and '${SERVER}'"
 	@echo "\tclean: Delete '.o'."
-	@echo "\tfclean: Delete'.o', '${NLIBRARY}' ©"
+	@echo "\tfclean: Delete'.o', '${NLIBRARY}'"
 	@echo "\tre: Delete '.o', '${NLIBRARY}', '${CLIENT}', '${SERVER}' and creates '${CLIENT}', '${SERVER}'"
+	@echo "\tgit: Push to git."
 	@echo "MakeFile by tvillare."
 
 .PHONY = all clean fclean re help git
