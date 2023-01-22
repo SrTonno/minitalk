@@ -96,7 +96,7 @@ $(NLIBRARY): $(LIBFT)
 bonus:
 	@make WITH_BONUS=1
 git: fclean
-	@git add .
+	@git add . ;
 	@read -p "nombre del commit: " commit ;\
 	git commit -m $$commit ;\
 	git push origin master ;
