@@ -98,7 +98,7 @@ bonus:
 git: fclean
 	@git add .
 	@read -p "nombre del commit: " commit ;\
-	git commit -m $$commit ;
+	git commit -m $$commit ;\
 	git push origin master ;
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
