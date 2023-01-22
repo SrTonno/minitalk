@@ -6,16 +6,20 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2023/01/18 14:58:53 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/01/22 13:05:55 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-static void	sig_usr(int signo)
+static void	sig_usr(int signo, siginfo_t *info, void *context)
 {
+	(void)context;
+	(void)info;
 	if (signo == SIGUSR1)
 		printf("✅\n");
+	if (signo == SIGUSR2)
+		printf("*");
 }
 
 static int	valid_pid(char *str)
@@ -36,7 +40,7 @@ static int	ft_killed(char chr, int pid)
 	count = 0;
 	while (8 > count)
 	{
-		usleep(250);
+		usleep(300);
 		if (chr & 128)
 			kill(pid, SIGUSR1);
 		else
@@ -53,7 +57,10 @@ int	main(int argc, char **argv)
 	int	pid;
 	int	len;
 	int	count;
+	struct sigaction	sa;
 
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sig_usr;
 	if (argc != 3)
 	{
 		ft_printf("Error: Numero de parametros erroneo");
@@ -67,7 +74,8 @@ int	main(int argc, char **argv)
 	pid = atoi(argv[1]);
 	count = 0;
 	len = ft_strlen(argv[2]);
-	signal(SIGUSR1, sig_usr);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (len > count)
 		ft_killed(argv[2][count++], pid);
 	return (1);
