@@ -6,11 +6,11 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 11:45:14 by tvillare          #+#    #+#             */
-/*   Updated: 2023/01/22 13:05:55 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:21:19 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
+#include "minitalk.h"
 
 static void	sig_usr(int signo, siginfo_t *info, void *context)
 {

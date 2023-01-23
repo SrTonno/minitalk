@@ -69,6 +69,7 @@ RM = rm -f
 LIBFT = $(OLIBFT) $(OPRINTF) $(OGNL)
 
 ###############################################################################
+
 ifdef WITH_BONUS
 	OBJS_CLIENT = ${OCLIENTB}
 	OBJS_SERVER = ${OSERVERB}
@@ -76,6 +77,7 @@ else
 	OBJS_CLIENT = ${OCLIENT}
 	OBJS_SERVER = ${OSERVER}
 endif
+
 ###############################################################################
 #                                              OPTIONS                        #
 ###############################################################################
@@ -96,11 +98,13 @@ $(NLIBRARY): $(LIBFT)
 bonus:
 	@make WITH_BONUS=1
 git: fclean
-	@echo ">>Push To Git<<"
+	@echo "\t>>Push To Git<<"
 	@git add . ;
-	@read -p "nombre del commit: " commit ;\
+	@read -p "Name the commit (One Word): " commit ;\
 	git commit -m $$commit ;\
 	git push origin master ;
+normi:
+	@norminette -R CheckForbiddenSourceHeader | grep Error!
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
@@ -122,6 +126,7 @@ help:
 	@echo "\tfclean: Delete'.o', '${NLIBRARY}'"
 	@echo "\tre: Delete '.o', '${NLIBRARY}', '${CLIENT}', '${SERVER}' and creates '${CLIENT}', '${SERVER}'"
 	@echo "\tgit: Push to git."
+	@echo "\normi: Check file with Error the norminette."
 	@echo "MakeFile by tvillare."
 
 .PHONY = all clean fclean re help git
