@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/01/23 18:56:29 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/01/23 19:20:24 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int	main(void)
 		len_letter();
 		//ft_receive_str();
 		g_data.len_str = 0;
-		bit = 1;
+		bit = 0;
 		ft_printf("\n%s/a/\n", g_data.str);
 		free(g_data.str);
 		ft_printf("\nFIN\n");
