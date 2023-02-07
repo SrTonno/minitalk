@@ -1,3 +1,4 @@
+include colors.mk
 ###############################################################################
 #                                              FILES                          #
 ###############################################################################
@@ -7,10 +8,10 @@ OCLIENT	=	${CCLIENT:.c=.o}
 CSERVER		= server.c
 OSERVER	=	${CSERVER:.c=.o}
 
-CCLIENTB		= client_bonus.c
+CCLIENTB		= client_str.c
 OCLIENTB	=	${CCLIENTB:.c=.o}
 
-CSERVERB		= server_bonus.c
+CSERVERB		= server_str.c
 OSERVERB	=	${CSERVERB:.c=.o}
 
 CLIBFT		= \
@@ -97,14 +98,18 @@ $(NLIBRARY): $(LIBFT)
 
 bonus:
 	@make WITH_BONUS=1
+
 git: fclean
-	@echo "\t>>Push To Git<<"
+	@echo "\t${BIPurple}>>Push To Git<<${NoColor}"
 	@git add . ;
-	@read -p "Name the commit (One Word): " commit ;\
-	git commit -m $$commit ;\
+	@read -p "Name the commit: " commit ;\
+	git commit -m "$$commit" ;\
 	git push origin master ;
+
 normi:
-	@norminette -R CheckForbiddenSourceHeader | grep Error!
+	@echo "${BICyan}>>Check Files with ${BIRed}ERROR${BICyan} norminette<<${NoColor}"
+	@norminette -R CheckForbiddenSourceHeader | grep Error! | grep -v tester
+
 .c.o:
 		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
@@ -120,13 +125,14 @@ fclean: clean
 re: fclean all
 
 help:
-	@echo "Options of MakeFile:"
-	@echo "\tDeault: Created '${CLIENT}' and '${SERVER}'"
-	@echo "\tclean: Delete '.o'."
-	@echo "\tfclean: Delete'.o', '${NLIBRARY}'"
-	@echo "\tre: Delete '.o', '${NLIBRARY}', '${CLIENT}', '${SERVER}' and creates '${CLIENT}', '${SERVER}'"
-	@echo "\tgit: Push to git."
-	@echo "\normi: Check file with Error the norminette."
-	@echo "MakeFile by tvillare."
+	@echo "${UGreen}Options of MakeFile:${NoColor}"
+	@echo "Used: make [options]"
+	@echo "\t${BICyan}Default:${NoColor} Created '${NAME}'"
+	@echo "\t${IRed}clean:${NoColor} Delete '.o'."
+	@echo "\t${BIRed}fclean:${NoColor} Delete'.o', '${NLIBRARY}'"
+	@echo "\t${BICyan}re:${NoColor} Delete '.o', '${NLIBRARY}', '${NAME}' and creates '${NAME}'"
+	@echo "\t${BIPurple}git:${NoColor} Push to git."
+	@echo "\t${BICyan}normi:${NoColor} Check file with Error the norminette."
+	@echo "MakeFile by ${UBlue}tvillare${NoColor}."
 
-.PHONY = all clean fclean re help git
+.PHONY = all clean fclean re help normi git
