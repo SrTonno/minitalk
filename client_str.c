@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/08 17:21:44 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:26:54 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ static int	valid_pid(char *str)
 static int	ft_killed(char chr, int pid)
 {
 	int	count;
+	struct sigaction	sa;
 
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sig_usr;
+	sigaction(SIGUSR2, &sa, NULL);
 	count = 0;
 	ft_printf("%c", chr);
 	while (8 > count)
@@ -61,6 +65,7 @@ static int	ft_killed(char chr, int pid)
 		chr = chr & 127;
 		chr = chr << 1;
 		count++;
+		pause();
 	}
 	ft_printf("\n");
 	return (1);
@@ -76,7 +81,6 @@ static void	put_len(int len, int pid)
 	sa.sa_sigaction = sig_usr;
 
 	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
 	elevar = 1;
 	count = 0;
 	while (31 > count)
@@ -98,6 +102,7 @@ static void	put_len(int len, int pid)
 		//len = len >> 1;
 		elevar *= 2;
 		count++;
+		pause();
 	}
 
 }

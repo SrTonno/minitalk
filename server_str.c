@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/08 17:31:11 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:05:36 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	if (SIGUSR1 == signo)
 	{
 		g_data.len_str |= elevar;
+		kill(info->si_pid, SIGUSR1);
 		//ft_printf("(1-%d-%d-%d)", g_data.len_str, elevar, i);
 		elevar *=2;
 		i++;
@@ -41,6 +42,7 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	else if (SIGUSR2 == signo)
 	{
 		//ft_printf("(0-%d-%d-%i)", g_data.len_str, elevar, i);
+		kill(info->si_pid, SIGUSR1);
 		elevar *=2;
 		i++;
 
@@ -68,22 +70,22 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 	(void) info;
 	if (signo == SIGUSR1)
 	{
-		//kill(info->si_pid, SIGUSR2);
-		//ft_printf("<1#%d>", bit);
+		kill(info->si_pid, SIGUSR2);
+		ft_printf("<1#%d>", bit);
 		letter = letter << 1;
 		letter |= 1;
 		bit++;
 	}
 	else if (signo == SIGUSR2)
 	{
-		//kill(info->si_pid, SIGUSR2);
-		//ft_printf("<0#%d>", bit);
+		kill(info->si_pid, SIGUSR2);
+		ft_printf("<0#%d>", bit);
 		bit++;
 		letter = letter << 1;
 	}
 	if (bit == 8)
 	{
-		//ft_printf("(%c/%d)\n", letter, bit);
+		ft_printf("(%c/%d)\n", letter, bit);
 		//bit = 0;
 		g_data.str[index++] = letter;
 		bit = 0;
