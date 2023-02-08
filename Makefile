@@ -121,9 +121,9 @@ clean:
 fclean: clean
 		@${RM} ${NLIBRARY} ${SERVER} ${NAME}
 		@echo "Delete libft.a, client and server."
-
+bre:	fclean
 re: fclean all
-
+	@make WITH_BONUS=1
 help:
 	@echo "${UGreen}Options of MakeFile:${NoColor}"
 	@echo "Used: make [options]"
@@ -135,4 +135,4 @@ help:
 	@echo "\t${BICyan}normi:${NoColor} Check file with Error the norminette."
 	@echo "MakeFile by ${UBlue}tvillare${NoColor}."
 
-.PHONY = all clean fclean re help normi git
+.PHONY = all clean fclean re help normi git bre

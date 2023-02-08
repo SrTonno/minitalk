@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/08 11:31:06 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:21:44 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ft_killed(char chr, int pid)
 	ft_printf("%c", chr);
 	while (8 > count)
 	{
-		usleep(300);
+		usleep(400);
 		if (chr & 128)
 		{
 			ft_printf("1");
@@ -102,54 +102,7 @@ static void	put_len(int len, int pid)
 
 }
 
-/*
-static void	ft_send_char(int pid_server, char letter)
-{
-	int		aux;
-	int		k;
-
-	k = 0;
-	aux = letter;
-	while (++k <= 8)
-	{
-		if (aux % 2 == 0)
-		{
-			usleep(300);
-			if (kill(pid_server, SIGUSR2) == -1)
-				exit(EXIT_FAILURE);
-		}
-		else
-		{
-			usleep(300);
-			if (kill(pid_server, SIGUSR1) == -1)
-				exit(EXIT_FAILURE);
-		}
-		aux >>= 1;
-		//pause();
-	}
-}
-static void	ft_send_str(int pid_server, char *str)
-{
-	int					i;
-	struct sigaction	sa_confirm;
-
-	i = -1;
-	sa_confirm.sa_sigaction = &sig_usr;
-	sigaction(SIGUSR2, &sa_confirm, NULL);
-	while (str[++i])
-		ft_send_char(pid_server, str[i]);
-	i = -1;
-	while (++i < 8)
-	{
-		usleep(100);
-		if (kill(pid_server, SIGUSR2) == -1)
-			exit(EXIT_FAILURE);
-		//pause();
-	}
-}
-
-*/
-
+//enviar /0 para saber fin de srt
 int	main(int argc, char **argv)
 {
 	int	pid;
@@ -177,10 +130,14 @@ int	main(int argc, char **argv)
 	len = ft_strlen(argv[2]);
 	ft_printf("%d/", len);
 	put_len(len, pid);
-
 	ft_printf("\n");
+	usleep(500);
 	while (len > count)
+	{
 		ft_killed(argv[2][count++], pid);
+		usleep(50);
+	}
+	//ft_killed(0, pid);
 	//ft_send_str(pid, argv[2]);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/08 11:48:15 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:31:11 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,23 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	if (SIGUSR1 == signo)
 	{
 		g_data.len_str |= elevar;
+		//ft_printf("(1-%d-%d-%d)", g_data.len_str, elevar, i);
 		elevar *=2;
 		i++;
-		ft_printf("(1-%d-%d-%d)", g_data.len_str, elevar, i);
+
 	}
 	else if (SIGUSR2 == signo)
 	{
+		//ft_printf("(0-%d-%d-%i)", g_data.len_str, elevar, i);
 		elevar *=2;
 		i++;
-		ft_printf("(0-%d-%d-%i)", g_data.len_str, elevar, i);
+
 	}
 
 	//if (kill(info->si_pid, SIGUSR1) == -1)
 		//exit(EXIT_FAILURE);
 	//if (elevar > 1073741824 ) //2^31
-	if (32 <= i)
+	if (32 == i)
 	{
 		ft_printf("\nFIN LEN\n");
 		elevar = 1;
@@ -67,7 +69,7 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 	if (signo == SIGUSR1)
 	{
 		//kill(info->si_pid, SIGUSR2);
-		ft_printf("<1>");
+		//ft_printf("<1#%d>", bit);
 		letter = letter << 1;
 		letter |= 1;
 		bit++;
@@ -75,19 +77,20 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 	else if (signo == SIGUSR2)
 	{
 		//kill(info->si_pid, SIGUSR2);
-		ft_printf("<0>");
+		//ft_printf("<0#%d>", bit);
 		bit++;
 		letter = letter << 1;
 	}
-	if (bit % 8 == 0)
+	if (bit == 8)
 	{
-		ft_printf("%c\n", letter);
+		//ft_printf("(%c/%d)\n", letter, bit);
 		//bit = 0;
 		g_data.str[index++] = letter;
+		bit = 0;
 		if (index > g_data.len_str - 1)
 		{
 			index = 0;
-			bit = 0;
+
 			ft_printf("\nFIN str\n");
 		}
 		letter = 0;
@@ -119,16 +122,15 @@ static void	len_letter(void)
 	int					i;
 
 	i = 0;
-	ft_printf("aaa");
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = sig_usr;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 		ft_printf("can not catch SIGUSR1\n");
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)
 		ft_printf("can not catch SIGUSR2\n");
-	while (++i <= (g_data.len_str) * 8)
+	while (++i <= (g_data.len_str) * 8 || g_data.len_str == 0) //g_data.len_str
 	{
-		ft_printf("&%d&", i%9);
+		//ft_printf("&%d&", i%8);
 		pause();
 	}
 }
