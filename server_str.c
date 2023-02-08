@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/07 15:19:21 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:48:15 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,19 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 
 	(void) info;
 	(void) context;
-	ft_printf("elevator->%d:%d->%d\n", i++, elevar, g_data.len_str);
+	//ft_printf("elevator->%d:%d->%d\n", i++, elevar, g_data.len_str);
 	if (SIGUSR1 == signo)
 	{
-		ft_printf("(1)");
 		g_data.len_str |= elevar;
 		elevar *=2;
+		i++;
+		ft_printf("(1-%d-%d-%d)", g_data.len_str, elevar, i);
 	}
 	else if (SIGUSR2 == signo)
 	{
-		ft_printf("(0)");
 		elevar *=2;
+		i++;
+		ft_printf("(0-%d-%d-%i)", g_data.len_str, elevar, i);
 	}
 
 	//if (kill(info->si_pid, SIGUSR1) == -1)
@@ -47,7 +49,7 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	//if (elevar > 1073741824 ) //2^31
 	if (32 <= i)
 	{
-		//ft_printf("aaaaaa");
+		ft_printf("\nFIN LEN\n");
 		elevar = 1;
 		i = 1;
 		//g_data.len_str = 0;
@@ -105,7 +107,7 @@ static void	len_str(int bit)
 		ft_printf("can not catch SIGUSR2\n");
 	while (bit++ < 31)
 	{
-		ft_printf("/%d/\n", bit);
+		 ft_printf("/%d/\n", bit);
 		pause();
 	}
 	ft_printf("//sig_len:%d\n", g_data.len_str);
@@ -117,7 +119,7 @@ static void	len_letter(void)
 	int					i;
 
 	i = 0;
-
+	ft_printf("aaa");
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = sig_usr;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
@@ -191,17 +193,19 @@ int	main(void)
 	viw_pid();
 	while (1)
 	{
+		ft_printf("\nStart\n");
 		len_str(bit);
 		//usleep(10);
 		ft_printf("--------------------\n");
-		//ft_printf("%s\n", g_data.str);
+		ft_printf("%d\n", g_data.len_str);
 		g_data.str = ft_calloc(sizeof(char), g_data.len_str + 1);
 		len_letter();
 		//ft_receive_str();
 		g_data.len_str = 0;
 		bit = 0;
 		ft_printf("\n%s/a/\n", g_data.str);
-		free(g_data.str);
+		if (g_data.str != NULL)
+			free(g_data.str);
 		ft_printf("\nFIN\n");
 		//pause();
 	}

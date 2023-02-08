@@ -61,7 +61,7 @@ NLIBRARY= libft.a
 CC = clang
 CFLAGS = -Wall -Werror -Wextra
 OPGRAFIC = -lmlx -framework OpenGL -framework AppKit
-SANITIZE = -fsanitize=address -g
+FSANITIZE = -fsanitize=address -g
 
 AR = ar
 ARFLAGS = -rcs
@@ -85,11 +85,11 @@ endif
 all: ${CLIENT} ${SERVER}
 
 ${CLIENT}: ${NLIBRARY} ${OBJS_CLIENT}
-	@${CC} ${CFLAGS} $^ ${NLIBRARY} -o $@
+	@${CC} ${CFLAGS} $^ ${NLIBRARY} ${FSANITIZE} -o $@
 	@echo "Created ${CLIENT}."
 
 ${SERVER}: ${NLIBRARY} ${OBJS_SERVER}
-	@${CC} ${CFLAGS} $^ ${NLIBRARY} -o $@
+	@${CC} ${CFLAGS} $^ ${NLIBRARY} ${FSANITIZE} -o $@
 	@echo "Created ${SERVER}."
 
 $(NLIBRARY): $(LIBFT)
