@@ -121,9 +121,8 @@ clean:
 fclean: clean
 		@${RM} ${NLIBRARY} ${SERVER} ${NAME}
 		@echo "Delete libft.a, client and server."
-bre:	fclean
+bre:	fclean@make WITH_BONUS=1
 re: fclean all
-	@make WITH_BONUS=1
 help:
 	@echo "${UGreen}Options of MakeFile:${NoColor}"
 	@echo "Used: make [options]"
