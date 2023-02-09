@@ -102,6 +102,12 @@ bonus:
 git: fclean
 	@echo "\t${BIPurple}>>Push To Git<<${NoColor}"
 	@git add . ;
+	@git remote -v | cut -d " " -f 1 | uniq
+#	#ifeq ($(git remote -v | cut -d " " -f 1 | uniq | wc -l),1)
+#		#echo "Hola"
+#	#else
+#		#echo "Adios"
+#	#endif
 	@read -p "Name the commit: " commit ;\
 	git commit -m "$$commit" ;\
 	git push origin master ;
