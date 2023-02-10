@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/09 16:29:03 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/10 14:51:34 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	}
 	if (kill(info->si_pid, SIGUSR1) != -1)
 		ft_printf("|");
+	else
+		ft_printf("W");
 }
 
 static void	sig_usr(int signo, siginfo_t *info, void *context)
@@ -85,7 +87,7 @@ static void	len_str(int bit)
 	struct sigaction	sa;
 
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = sig_len;
+	sa.sa_sigaction = &sig_len;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 		ft_printf("can not catch SIGUSR1\n");
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)

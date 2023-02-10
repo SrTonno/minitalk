@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/09 16:34:13 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/10 14:50:19 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	valid_pid(char *str)
 	struct sigaction	sa;
 
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = sig_usr;
+	sa.sa_sigaction = &sig_usr;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	count = -1;
@@ -44,7 +44,7 @@ static int	ft_killed(char chr, int pid)
 	struct sigaction	sa;
 
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = sig_usr;
+	sa.sa_sigaction = &sig_usr;
 	sigaction(SIGUSR2, &sa, NULL);
 	count = 0;
 	ft_printf("%c", chr);
@@ -64,7 +64,7 @@ static int	ft_killed(char chr, int pid)
 		chr = chr << 1;
 		count++;
 		pause();
-		usleep(300);
+		usleep(100);
 		ft_printf("|");
 	}
 	ft_printf("\n");
@@ -78,7 +78,7 @@ static void	put_len(int len, int pid)
 	struct sigaction	sa;
 
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = sig_usr;
+	sa.sa_sigaction = &sig_usr;
 	sigaction(SIGUSR1, &sa, NULL);
 	elevar = 1;
 	count = -1;
@@ -98,7 +98,7 @@ static void	put_len(int len, int pid)
 		}
 		elevar *= 2;
 		pause();
-		usleep(300);
+		usleep(100);
 	}
 }
 
