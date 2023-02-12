@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/10 14:51:34 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:37:12 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 {
 	static long	elevar = 1;
 	static int	i = 1;
+	//int			a;
 
 	(void) context;
 	//ft_printf("elevator->%d:%d->%d\n", i++, elevar, g_data.len_str);
@@ -35,15 +36,18 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 	i++;
 	if (32 == i)
 	{
-		ft_printf("\nFIN LEN\n");
+		//ft_printf("\nFIN LEN\n");
 		elevar = 1;
 		i = 1;
 		//g_data.len_str = 0;
 	}
-	if (kill(info->si_pid, SIGUSR1) != -1)
+	usleep(70);
+	kill(info->si_pid, SIGUSR1);
+	/*if ((a = kill(info->si_pid, SIGUSR1)) != -1)
 		ft_printf("|");
 	else
 		ft_printf("W");
+	ft_printf("%d", a);*/
 }
 
 static void	sig_usr(int signo, siginfo_t *info, void *context)
@@ -51,35 +55,39 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 	static int	bit = 0;
 	static char	letter;
 	static int	index = 0;
+	//int			a;
 
 	(void)context;
 	bit++;
 	letter = letter << 1;
 	if (signo == SIGUSR1)
 	{
-		ft_printf("<1#%d>", bit);
+		//ft_printf("<1#%d>", bit);
 		letter |= 1;
 	}
-	else if (signo == SIGUSR2)
+	/*else if (signo == SIGUSR2)
 	{
 		ft_printf("<0#%d>", bit);
-	}
+	}*/
 	if (bit == 8)
 	{
-		ft_printf("(%c/%d)\n", letter, bit);
+		//ft_printf("(%c/%d)\n", letter, bit);
 		g_data.str[index++] = letter;
 		bit = 0;
 		if (index > g_data.len_str - 1)
 		{
 			index = 0;
-			ft_printf("\nFIN str\n");
+			//ft_printf("\nFIN str\n");
 		}
 		letter = 0;
 	}
-	if (kill(info->si_pid, SIGUSR2) != -1)
+	usleep(70);
+	kill(info->si_pid, SIGUSR2);
+	/*if ((a =) != -1)
 		ft_printf("|");
 	else
 		ft_printf("()");
+	ft_printf("%d", a);*/
 }
 
 static void	len_str(int bit)
@@ -94,10 +102,10 @@ static void	len_str(int bit)
 		ft_printf("can not catch SIGUSR2\n");
 	while (bit++ < 31)
 	{
-		ft_printf("/%d/\n", bit);
+		//ft_printf("/%d/\n", bit);
 		pause();
 	}
-	ft_printf("//sig_len:%d\n", g_data.len_str);
+	//ft_printf("//sig_len:%d\n", g_data.len_str);
 }
 
 static void	len_letter(void)
@@ -128,17 +136,17 @@ int	main(void)
 	viw_pid();
 	while (1)
 	{
-		ft_printf("\nStart\n");
+		//ft_printf("\nStart\n");
 		len_str(bit);
-		ft_printf("--------------------\n");
+		//ft_printf("--------------------\n");
 		g_data.str = ft_calloc(sizeof(char), g_data.len_str + 1);
 		len_letter();
 		g_data.len_str = 0;
 		bit = 0;
-		ft_printf("\n%s/a/\n", g_data.str);
+		ft_printf("%s\n", g_data.str);
 		if (g_data.str != NULL)
 			free(g_data.str);
-		ft_printf("\nFIN\n");
+		//ft_printf("\nFIN\n");
 	}
 	return (0);
 }

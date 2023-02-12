@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/10 14:50:19 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:32:25 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	ft_killed(char chr, int pid)
 {
 	int					count;
 	struct sigaction	sa;
+	int a;
 
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &sig_usr;
@@ -52,22 +53,28 @@ static int	ft_killed(char chr, int pid)
 	{
 		if (chr & 128)
 		{
-			ft_printf("1");
+			//ft_printf("1");
 			kill(pid, SIGUSR1);
 		}
 		else
 		{
-			ft_printf("0");
+			//ft_printf("0");
 			kill(pid, SIGUSR2);
 		}
+		pause();
 		chr = chr & 127;
 		chr = chr << 1;
 		count++;
-		pause();
+		a = 0;
+		//while (pause() || a != 1000)
+			//a++;
+
+
 		usleep(100);
-		ft_printf("|");
+		//ft_printf("/%d/", a);
+		//ft_printf("|");
 	}
-	ft_printf("\n");
+	//ft_printf("\n");
 	return (1);
 }
 
@@ -86,18 +93,18 @@ static void	put_len(int len, int pid)
 	{
 		if (len & elevar)
 		{
-			ft_printf("1");
+			//ft_printf("1");
 			if (kill(pid, SIGUSR1) == -1)
 				exit(1);
 		}
 		else
 		{
-			ft_printf("0");
+			//ft_printf("0");
 			if (kill(pid, SIGUSR2) == -1)
 				exit(1);
 		}
-		elevar *= 2;
 		pause();
+		elevar *= 2;
 		usleep(100);
 	}
 }
@@ -124,7 +131,7 @@ int	main(int argc, char **argv)
 	ft_printf("%d/", len);
 	put_len(len, pid);
 	ft_printf("\n");
-	usleep(30);
+	usleep(50);
 	while (len > count)
 	{
 		ft_killed(argv[2][count++], pid);
