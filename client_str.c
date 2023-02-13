@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/12 17:32:25 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:06:42 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	ft_killed(char chr, int pid)
 	ft_printf("%c", chr);
 	while (8 > count)
 	{
+
 		if (chr & 128)
 		{
 			//ft_printf("1");
@@ -66,11 +67,10 @@ static int	ft_killed(char chr, int pid)
 		chr = chr << 1;
 		count++;
 		a = 0;
+		usleep(100);
 		//while (pause() || a != 1000)
 			//a++;
 
-
-		usleep(100);
 		//ft_printf("/%d/", a);
 		//ft_printf("|");
 	}
