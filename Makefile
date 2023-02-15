@@ -5,13 +5,13 @@ include colors.mk
 CCLIENT		= client.c
 OCLIENT	=	${CCLIENT:.c=.o}
 
-CSERVER		= server.c
+CSERVER		= server.c server_utils.c
 OSERVER	=	${CSERVER:.c=.o}
 
-CCLIENTB		= client_str.c
+CCLIENTB		= client_bonus.c
 OCLIENTB	=	${CCLIENTB:.c=.o}
 
-CSERVERB		= server_str.c
+CSERVERB		= server_bonus.c server_utils.c
 OSERVERB	=	${CSERVERB:.c=.o}
 
 CLIBFT		= \
@@ -103,11 +103,6 @@ git: fclean
 	@echo "\t${BIPurple}>>Push To Git<<${NoColor}"
 	@git add . ;
 	@git remote -v | cut -d " " -f 1 | uniq
-#	#ifeq ($(git remote -v | cut -d " " -f 1 | uniq | wc -l),1)
-#		#echo "Hola"
-#	#else
-#		#echo "Adios"
-#	#endif
 	@read -p "Name the commit: " commit ;\
 	git commit -m "$$commit" ;\
 	git push origin master ;
@@ -117,7 +112,7 @@ normi:
 	@norminette -R CheckForbiddenSourceHeader | grep Error! | grep -v tester
 
 .c.o:
-		 @${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
+	@${CC} ${CFLAGS} -Imlx -c $< -o ${<:.c=.o}
 
 ###############################################################################
 clean:
@@ -125,10 +120,14 @@ clean:
 		@echo "Delete .o."
 
 fclean: clean
-		@${RM} ${NLIBRARY} ${SERVER} ${NAME}
+		@${RM} ${NLIBRARY} ${SERVER} ${CLIENT}
 		@echo "Delete libft.a, client and server."
-bre:	fclean@make WITH_BONUS=1
+
+bre:	fclean
+	@make WITH_BONUS=1
+
 re: fclean all
+
 help:
 	@echo "${UGreen}Options of MakeFile:${NoColor}"
 	@echo "Used: make [options]"

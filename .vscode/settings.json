@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minitalk.h": "c",
 		"client.h": "c",
-		"server.h": "c"
+		"server.h": "c",
+		"stdio.h": "c"
 	}
 }

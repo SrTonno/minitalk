@@ -5,53 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 11:45:22 by tvillare          #+#    #+#             */
-/*   Updated: 2023/01/22 17:16:25 by tvillare         ###   ########.fr       */
+/*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
+/*   Updated: 2023/02/15 16:53:25 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "server_bonus.h"
 
-static void	viw_pid(void)
+t_data	g_data;
+
+void	sig_len(int signo, siginfo_t *info, void *context)
 {
-	pid_t	pid;
+	static long	elevar = 1;
+	static int	i = 1;
 
-	pid = getpid();
-	ft_printf("pid: %d\n", pid);
+	(void) context;
+	if (SIGUSR1 == signo)
+		g_data.len_str |= elevar;
+	elevar *= 2;
+	i++;
+	if (32 == i)
+	{
+		elevar = 1;
+		i = 1;
+	}
+	usleep(300);
+	kill(info->si_pid, SIGUSR1);
 }
 
-static void	sig_usr(int signo)
+static void	sig_usr(int signo, siginfo_t *info, void *context)
 {
-	static int	bit;
+	static int	bit = 0;
 	static char	letter;
+	static int	index = 0;
 
+	(void)context;
+	bit++;
+	letter = letter << 1;
 	if (signo == SIGUSR1)
-	{
-		letter = letter << 1;
 		letter |= 1;
-		bit++;
-	}
-	else if (signo == SIGUSR2)
+	if (bit == 8)
 	{
-		bit++;
-		letter = letter << 1;
-	}
-	if (8 <= bit)
-	{
+		g_data.str[index++] = letter;
 		bit = 0;
-		write(1, &letter, 1);
-		letter &= 0;
+		if (index > g_data.len_str - 1)
+			index = 0;
+		letter = 0;
 	}
+	usleep(300);
+	kill(info->si_pid, SIGUSR2);
+}
+
+static void	len_letter(void)
+{
+	struct sigaction	sa;
+	int					i;
+
+	i = 0;
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = sig_usr;
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+		ft_printf("can not catch SIGUSR1\n");
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+		ft_printf("can not catch SIGUSR2\n");
+	while (++i <= (g_data.len_str) * 8)
+		pause();
 }
 
 int	main(void)
 {
+	int	bit;
+
+	g_data.len_str = 0;
+	bit = 0;
 	viw_pid();
-	if (signal(SIGUSR1, sig_usr) == SIG_ERR)
-		ft_printf("can not catch SIGUSR1\n");
-	if (signal(SIGUSR2, sig_usr) == SIG_ERR)
-		ft_printf("can not catch SIGUSR2\n");
 	while (1)
-		pause();
+	{
+		len_str(bit);
+		if (g_data.len_str != 0)
+			g_data.str = ft_calloc(sizeof(char), g_data.len_str + 1);
+		len_letter();
+		g_data.len_str = 0;
+		bit = 0;
+		ft_printf("%s\n", g_data.str);
+		if (g_data.str != NULL)
+			free(g_data.str);
+	}
 	return (0);
 }
