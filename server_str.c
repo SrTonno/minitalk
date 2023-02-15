@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:38 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/13 17:09:49 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:46:37 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	sig_len(int signo, siginfo_t *info, void *context)
 		i = 1;
 		//g_data.len_str = 0;
 	}
-	usleep(200);
+	usleep(300);
 	kill(info->si_pid, SIGUSR1);
 	/*if ((a = kill(info->si_pid, SIGUSR1)) != -1)
 		ft_printf("|");
@@ -81,7 +81,7 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 		}
 		letter = 0;
 	}
-	usleep(200);
+	usleep(300);
 	kill(info->si_pid, SIGUSR2);
 	/*if ((a =) != -1)
 		ft_printf("|");

@@ -6,7 +6,7 @@
 /*   By: tvillare <tvillare@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 15:43:40 by tvillare          #+#    #+#             */
-/*   Updated: 2023/02/13 19:06:42 by tvillare         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:53:27 by tvillare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	sig_usr(int signo, siginfo_t *info, void *context)
 	(void)context;
 	(void)info;
 	if (signo == SIGUSR1)
-		ft_printf("✅\n");
+		ft_printf("|");
 	if (signo == SIGUSR2)
 		ft_printf("*");
 }
