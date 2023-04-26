@@ -27,5 +27,5 @@ Para ejecutar el cliente, se debe primero compilarlo y luego ejecutar el archivo
 
 Donde `server_pid` es el PID del servidor al que se enviará el mensaje y `message` es el mensaje que se enviará al servidor.
 
-#Conclusiones
+## Conclusiones
 El proyecto Minitalk es un desafío interesante para mejorar las habilidades en programación y en particular en manejo de señales en C. Además, es una oportunidad para practicar el trabajo en equipo y la gestión de proyectos en un entorno de programación.
