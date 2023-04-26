@@ -1,4 +1,5 @@
-# El proyecto Minitalk de la escuela 42 es un programa cliente-servidor que permite la comunicación entre dos procesos a través de señales. El objetivo es enviar mensajes entre el cliente y el servidor en forma de señales binarias.
+# Características 
+El proyecto Minitalk de la escuela 42 es un programa cliente-servidor que permite la comunicación entre dos procesos a través de señales. El objetivo es enviar mensajes entre el cliente y el servidor en forma de señales binarias.
 
 ## Características
 El proyecto debe incluir las siguientes características:
